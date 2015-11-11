@@ -1,29 +1,14 @@
 from Operator import Operator
 
-def arithmeticCalculation( operandOne, operandTwo, operator ):
-    if operator == operator.addition:
-        return operandOne + operandTwo
-    elif operator == operator.subtraction:
-        return operandOne - operandTwo
-    elif operator == operator.multiplication:
-        return num * operandTwo
-    else:
-        return operandOne / operandTwo
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-"""
-    Purpose:    Perform bitwise shift left operator to a binary number in string form
-    Parameter:  Two binary numbers. First one is number to be shifted.
-              Second number is how many shifts should be done (must be an integer)
-    Return:     result binary number in string form
-    Example:    input of "1011.11" and "101" yields an output of "101111000"
-"""
-##def logicalSHL( n1, n2 ):
-##    if '.' in n1:
-##        n2 = int(n2, 2)
-##        n1 = n1 + '0'*n2
-##        pointLocation = n1.find('.')
-##        n1 = n1[:pointLocation] + n1[pointLocation+1:pointLocation+1+n1] +
+##def arithmeticCalculation( operandOne, operandTwo, operator ):
+##    if operator == operator.addition:
+##        return operandOne + operandTwo
+##    elif operator == operator.subtraction:
+##        return operandOne - operandTwo
+##    elif operator == operator.multiplication:
+##        return num * operandTwo
+##    else:
+##        return operandOne / operandTwo
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
@@ -41,7 +26,7 @@ def logicalNOT( operand ):
             result = result + '1'
         elif operand[i] == '.':
             result = result + '.'
-    return removeInsignificantZeros( result )
+    return removeInsignificantZeroes( result )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
@@ -63,7 +48,7 @@ def logicalXOR( operandOne, operandTwo):
                 result = result + '.'
             else:
                 result = result + '1'
-        return removeInsignificantZeros(result)
+        return removeInsignificantZeroes(result)
     else:
         return bin( int(operandOne,2) & int(operandTwo,2))[2:]
 
@@ -85,7 +70,7 @@ def logicalNOR( operandOne, operandTwo):
                 result = result + '.'
             else:
                 result = result + '1'
-        return removeInsignificantZeros(result)
+        return removeInsignificantZeroes(result)
     else:
         return bin( int(operandOne,2) & int(operandTwo,2))[2:]
 
@@ -107,7 +92,7 @@ def logicalAND( operandOne, operandTwo):
                 result = result + '.'
             else:
                 result = result + '0'
-        return removeInsignificantZeros(result)
+        return removeInsignificantZeroes(result)
     else:
         return bin( int(operandOne,2) & int(operandTwo,2))[2:]
 
@@ -129,7 +114,7 @@ def logicalOR( operandOne, operandTwo):
                 result = result + '.'
             else:
                 result = result + '0'
-        return removeInsignificantZeros(result)
+        return removeInsignificantZeroes(result)
     else:
         return bin( int(operandOne,2) | int(operandTwo,2))[2:]
 
@@ -177,7 +162,7 @@ def equalLen( operandOne, operandTwo):
     Return:     Simplified binary number as a string
     Example:    input of "001101.01100" yields an output of "1101.011"
 """
-def removeInsignificantZeros( number ):
+def removeInsignificantZeroes( number ):
     if '1' not in number:
         return '0'
     location = number.index('1')
@@ -194,6 +179,36 @@ def removeInsignificantZeros( number ):
         number = number[ number.index('.') + 1:]
     return number[::-1]
 
-    
-    
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+##"""
+##    Purpose:    Perform bitwise shift left operator to a binary number in string form
+##    Parameter:  Two binary numbers. First one is number to be shifted.
+##              Second number is how many shifts should be done (must be an integer)
+##    Return:     result binary number in string form
+##    Example:    input of "1011.11" and "101" yields an output of "101111000"
+##"""
+##def logicalSHL( n1, n2 ):
+##    if '.' in n1:
+##        n2 = int(n2, 2)
+##        n1 = n1 + '0'*n2
+##        pL = n1.find('.')
+##        n1 = n1[:pL] + n1[pL+1:pL+1+n2] + '.' + n1[pL+1+n2:]
+##        return removeInsignificantZeroes( n1 )
+##    else:
+##        return( n1 + '0'*int(n2,2))
+##
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+##"""
+##    Purpose:    Perform bitwise shift left operator to a binary number in string form
+##    Parameter:  Two binary numbers. First one is number to be shifted.
+##              Second number is how many shifts should be done (must be an integer)
+##    Return:     result binary number in string form
+##    Example:    input of "1011.11" and "101" yields an output of "101111000"
+##"""
+##def logicalSHR( n1, n2 ):
+##    n1 = n1[::-1]
+##    n1 = logicalSHL( n1, n2)
+##    n1 = n1[::-1]
+##    return removeInsignificantZeroes(n1)
+  
 
