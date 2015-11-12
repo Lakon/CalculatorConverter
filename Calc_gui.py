@@ -1,3 +1,13 @@
+"""
+Filename:     Calc_gui.py
+Programmer:   Thomas Martin
+Date:         11/12/15
+Description:  This file holds the class for the gui of our project.
+              It will handle the logic; calling convert and calculate when needed and
+              print to the output boxes. Has buttons for calculate, clear, and quit.  
+"""
+
+
 import tkinter as tk
 
 class CalcConvertApp(tk.Tk):
@@ -100,11 +110,23 @@ class CalcConvertApp(tk.Tk):
         self.operand1Entry.focus_set()
         self.operand1Entry.selection_range(0, tk.END)
 
+    """
+    Purpose:    Handle the main logic for the project. Does something depending on the input.
+    Parameters: self
+    Return:     Outputs to output boxes
+    Example:    click button, convert both inputs, calculate input, output input
+    """
     def OnCalcButtonClicked(self):
         self.operand1.set(self.operand1Input.get())
         self.operand2.set(self.operand2Input.get())
         self.result.set("BOOM")
 
+    """
+    Purpose:    Handle the main logic for the project. Does something depending on the input.
+    Parameters: self
+    Return:     Outputs to output boxes
+    Example:    click button, all boxes are cleared and focus goes to operand1 input
+    """
     def OnClearButtonClicked(self):
         self.operand1.set("")
         self.operand2.set("")
@@ -117,6 +139,12 @@ class CalcConvertApp(tk.Tk):
         self.operand1Entry.focus_set()
         self.operand1Entry.selection_range(0, tk.END)
 
+    """
+    Purpose:    Quit program
+    Parameters: self
+    Return:     N/A
+    Example:    click button, program closes
+    """
     def Quit(self):
         self.destroy()
 
