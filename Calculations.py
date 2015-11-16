@@ -1,14 +1,44 @@
+"""
+File:         Calculations.py
+Programmer:   Jose Daniel Velazco
+Date:         10/25/15
+Description:  Peforms the arithmetic and logical calculations required by our calculator.
+              Arithmetic calculations included: Addion, Subtraction, Multiplication, Division
+              Logical calculations included: AND, OR, XOR, NOR, NOT, SHR, SHL 
+"""
 from Operator import Operator
 
-##def arithmeticCalculation( operandOne, operandTwo, operator ):
-##    if operator == operator.addition:
-##        return operandOne + operandTwo
-##    elif operator == operator.subtraction:
-##        return operandOne - operandTwo
-##    elif operator == operator.multiplication:
-##        return num * operandTwo
-##    else:
-##        return operandOne / operandTwo
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+"""
+    Purpose:    Logic to this file. Selects appropriate function to run
+    Parameter:  Two operands and one operator
+    Return:     result from specified calculation
+    Example:    5 + 7 yields an output of 12
+"""
+def result( operandOne, operandTwo, operator ):
+    if operator == Operator.ADD:
+        return float(operandOne) + float(operandTwo)
+    elif operator == Operator.SUB:
+        return float(operandOne) - float(operandTwo)
+    elif operator == Operator.MUL:
+        return float(operandOne) * float(operandTwo)
+    elif operator == Operator.DIV:
+        return float(operandOne) / float(operandTwo)
+    elif operator == Operator.AND:
+        return logicalAND( operandOne, operandTwo )
+    elif operator == Operator.OR:
+        return logicalOR( operandOne, operandTwo )
+    elif operator == Operator.XOR:
+        return logicalXOR( operandOne, operandTwo )
+    elif operator == Operator.NOR:
+        return logicalNOR( operandOne, operandTwo )
+    elif operator == Operator.NOT:
+        return logicalAND( operandOne )
+    elif operator == Operator.SHL:
+        return int( operandOne, 2 ) << int( operandTwo, 2 )
+    elif operator == Operator.SHR:
+        return int( operandOne, 2 ) >> int( operandTwo, 2 )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
@@ -163,21 +193,53 @@ def equalLen( operandOne, operandTwo):
     Example:    input of "001101.01100" yields an output of "1101.011"
 """
 def removeInsignificantZeroes( number ):
-    if '1' not in number:
-        return '0'
-    location = number.index('1')
-    if location < number.index('.'):
-        number = number[location:]
+    while True:
+        if number[0] == '0' and number[1] != '.':
+            number = number[1:]
+        else:
+            break
+    number = number[::-1]  #reverses the string
+    while True:
+        if number[0] == '0' and number[1] != '.':
+            number = number[1:]
+        else:
+            break
+    number = number[::-1]
+    if number == "0.0":
+        return "0"
     else:
-        number = "0" + number[ number.index('.'):]
-        
-    number = number[::-1]   #reverses the sring
-    location = number.index('1')
-    if location < number.index('.'):
-        number = number[location:]
-    else:
-        number = number[ number.index('.') + 1:]
-    return number[::-1]
+        return number
+    
+    
+##    if '1' not in number:
+##        return '0'
+##    location = number.index('1')
+##    if location < number.index('.'):
+##        number = number[location:]
+##    else:
+##        number = "0" + number[ number.index('.'):]
+##        
+##    number = number[::-1]   #reverses the sring
+##    location = number.index('1')
+##    if location < number.index('.'):
+##        number = number[location:]
+##    else:
+##        number = number[ number.index('.') + 1:]
+##    return number[::-1]
+
+
+
+## --------------- BAD CODE ----------------------------------------------------#
+
+##def arithmeticCalculation( operandOne, operandTwo, operator ):
+##    if operator == operator.ADD:
+##        return float(operandOne) + float(operandTwo)
+##    elif operator == operator.subtraction:
+##        return float(operandOne) - float(operandTwo)
+##    elif operator == operator.multiplication:
+##        return float(num) * float(operandTwo)
+##    else:
+##        return float(operandOne) / float(operandTwo)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ##"""
@@ -187,15 +249,15 @@ def removeInsignificantZeroes( number ):
 ##    Return:     result binary number in string form
 ##    Example:    input of "1011.11" and "101" yields an output of "101111000"
 ##"""
-##def logicalSHL( n1, n2 ):
-##    if '.' in n1:
-##        n2 = int(n2, 2)
-##        n1 = n1 + '0'*n2
-##        pL = n1.find('.')
-##        n1 = n1[:pL] + n1[pL+1:pL+1+n2] + '.' + n1[pL+1+n2:]
-##        return removeInsignificantZeroes( n1 )
+##def logicalSHL( operandOne, operandTwo ):
+##    if '.' in operandOne:
+##        operandTwo = int(operandTwo, 2)
+##        operandOne = operandOne + '0'*operandTwo
+##        pL = operandOne.find('.')
+##        operandOne = operandOne[:pL] + operandOne[pL+1:pL+1+operandTwo] + '.' + operandOne[pL+1+operandTwo:]
+##        return removeInsignificantZeroes( operandOne )
 ##    else:
-##        return( n1 + '0'*int(n2,2))
+##        return( operandOne + '0'*int(operandTwo,2))
 ##
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ##"""
@@ -205,10 +267,10 @@ def removeInsignificantZeroes( number ):
 ##    Return:     result binary number in string form
 ##    Example:    input of "1011.11" and "101" yields an output of "101111000"
 ##"""
-##def logicalSHR( n1, n2 ):
-##    n1 = n1[::-1]
-##    n1 = logicalSHL( n1, n2)
-##    n1 = n1[::-1]
-##    return removeInsignificantZeroes(n1)
+##def logicalSHR( operandOne, operandTwo ):
+##    operandOne = operandOne[::-1]
+##    operandOne = logicalSHL( operandOne, operandTwo)
+##    operandOne = operandOne[::-1]
+##    return removeInsignificantZeroes(operandOne)
   
 
