@@ -142,6 +142,63 @@ def floatsem(num):
     return (sign, exponent, mantissa)
 """    
 
+#I have a function called removeInsignificantZeroes in my Calculations.
+#At the moment, it only works for binary strings. I'll fix it to work with any
+#base so you can use here and remove the extra zeroes. 
+
+def decToBin( n ):
+    if '.' in n:
+        pL = n.find('.')    # location of point
+        integer = n[:pL]    
+        fraction = n[pL+1:]
+        integer = bin(int(integer))[2:] + '.'
+        fraction = float(n) - int( float(n) )
+        counter = 5
+        while counter != 0 or fraction != 0:
+            fraction *= 2
+            if fraction >= 1:
+                integer = integer + str(int(fraction))
+                fraction -= int(fraction)
+            else:
+                integer = integer + '0'
+            counter -= 1
+        return integer
+    else:
+        return bin(int(n))[2:]
+
+def decToHex( n ):
+    if '.' in n:
+        pL = n.find('.')
+        integer = n[:pL]
+        fraction = n[pL+1:]
+        integer = hex(int(integer))[2:] + '.'
+        fraction = float(n) - int(float(n))
+        counter = 5
+        while counter != 0 or fraction != 0:
+            fraction *= 2
+            if fraction >= 1:
+                if int(fraction) == 10:
+                    integer = integer + 'a'
+                elif int(fraction) == 11:
+                    integer = integer + 'b'
+                elif int(fraction) == 12:
+                    integer = integer + 'c'
+                elif int(fraction) == 13:
+                    integer = integer + 'd'
+                elif int(fraction) == 14:
+                    integer = integer + 'e'
+                elif int(fraction) == 15:
+                    integer = integer + 'f'
+                elif int(fraction) <= 9:
+                    integer = integer + str(int(fraction))
+                fraction -= int(fraction)
+            else:
+                integer = integer + '0'
+            counter -= 1
+        return integer
+    else:
+        return hex(int(n))[2:]
+ 
 
 
 
