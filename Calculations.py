@@ -18,13 +18,13 @@ from Operator import Operator
 """
 def result( operandOne, operandTwo, operator ):
     if operator == Operator.ADD:
-        return float(operandOne) + float(operandTwo)
+        return str(float(operandOne) + float(operandTwo))
     elif operator == Operator.SUB:
-        return float(operandOne) - float(operandTwo)
+        return str(float(operandOne) - float(operandTwo))
     elif operator == Operator.MUL:
-        return float(operandOne) * float(operandTwo)
+        return str(float(operandOne) * float(operandTwo))
     elif operator == Operator.DIV:
-        return float(operandOne) / float(operandTwo)
+        return str(float(operandOne) / float(operandTwo))
     elif operator == Operator.AND:
         return logicalAND( operandOne, operandTwo )
     elif operator == Operator.OR:
@@ -34,7 +34,7 @@ def result( operandOne, operandTwo, operator ):
     elif operator == Operator.NOR:
         return logicalNOR( operandOne, operandTwo )
     elif operator == Operator.NOT:
-        return logicalAND( operandOne )
+        return logicalNOT( operandOne )
     elif operator == Operator.SHL:
         return int( operandOne, 2 ) << int( operandTwo, 2 )
     elif operator == Operator.SHR:
