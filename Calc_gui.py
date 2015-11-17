@@ -9,6 +9,9 @@ Description:  This file holds the class for the gui of our project.
 
 
 import tkinter as tk
+from Calculations import result
+from Operator import Operator
+from Base import Base
 
 class CalcConvertApp(tk.Tk):
     def __init__(self,parent):
@@ -119,7 +122,12 @@ class CalcConvertApp(tk.Tk):
     def OnCalcButtonClicked(self):
         self.operand1.set(self.operand1Input.get())
         self.operand2.set(self.operand2Input.get())
-        self.result.set("BOOM")
+        try:
+            self.result.set(str(result(self.operand1Input.get(), self.operand2Input.get(), Operator.stringToOperator(self.operator.get()))))
+        except ValueError as e:
+            #message box?
+            print (e)
+
 
     """
     Purpose:    Handle the main logic for the project. Does something depending on the input.
