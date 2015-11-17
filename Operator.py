@@ -21,4 +21,30 @@ class Operator(Enum):
     SHL = 10
     SHR = 11
 
+    def stringToOperator(op):
+        if op == '+':
+            return Operator.ADD
+        if op == '-':
+            return Operator.SUB
+        if op == '*':
+            return Operator.MUL
+        if op == '/':
+            return Operator.DIV
+        if op == 'AND':
+            return Operator.AND
+        if op == 'OR':
+            return Operator.OR
+        if op == 'XOR':
+            return Operator.XOR
+        if op == 'NOR':
+            return Operator.NOR
+        if op == 'NOT':
+            return Operator.NOT
+        if op == 'SHL':
+            return Operator.SHL
+        if op == 'SHR':
+            return Operator.SHR
+        raise ValueError("invalid operator")
+
+
     
