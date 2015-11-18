@@ -21,6 +21,13 @@ class Operator(Enum):
     SHL = 10
     SHR = 11
 
+    @property
+    def isArithmetic(self):
+        if self == Operator.ADD or self == Operator.SUB or self == Operator.MUL or self == Operator.DIV:
+            return True
+        else:
+            return False
+
     def stringToOperator(op):
         if op == '+':
             return Operator.ADD

@@ -14,4 +14,14 @@ class Base(Enum):
     binary = 3
     sem = 4
 
+    def stringToBase(b):
+        if b == 'Decimal':
+            return Base.decimal
+        if b == 'Hexadecimal':
+            return Base.hexadecimal
+        if b == 'Binary':
+            return Base.binary
+        if b == 'SEM':
+            return Base.sem
+        raise ValueError("invalid base")
     

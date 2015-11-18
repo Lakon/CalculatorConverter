@@ -10,6 +10,7 @@ Description:  This file holds the class for the gui of our project.
 
 import tkinter as tk
 from Calculations import result
+from BaseEquation import convert
 from Operator import Operator
 from Base import Base
 
@@ -120,10 +121,23 @@ class CalcConvertApp(tk.Tk):
     Example:    click button, convert both inputs, calculate input, output input
     """
     def OnCalcButtonClicked(self):
-        self.operand1.set(self.operand1Input.get())
-        self.operand2.set(self.operand2Input.get())
+        
         try:
-            self.result.set(str(result(self.operand1Input.get(), self.operand2Input.get(), Operator.stringToOperator(self.operator.get()))))
+            operator = Operator.stringToOperator(self.operator.get())
+            if operator.isArithmetic:
+                operand1 = convert(self.operand1Input.get(), Base.stringToBase(self.base1.get()), Base.decimal) 
+                operand2 = convert(self.operand2Input.get(), Base.stringToBase(self.base2.get()), Base.decimal)
+
+                self.operand1.set(convert(str(operand1), Base.decimal, Base.stringToBase(self.outputFormat.get())))
+                self.operand2.set(convert(str(operand2), Base.decimal, Base.stringToBase(self.outputFormat.get())))
+                self.result.set(convert(str(result(operand1, operand2, operator)), Base.decimal, Base.stringToBase(self.outputFormat.get())))
+            else:
+                operand1 = convert(self.operand1Input.get(), Base.stringToBase(self.base1.get()), Base.binary)
+                operand2 = convert(self.operand2Input.get(), Base.stringToBase(self.base2.get()), Base.binary)
+
+                self.operand1.set(convert(str(operand1), Base.binary, Base.stringToBase(self.outputFormat.get())))
+                self.operand2.set(convert(str(operand2), Base.binary, Base.stringToBase(self.outputFormat.get())))
+                self.result.set(convert(str(result(operand1, operand2, operator)), Base.binary, Base.stringToBase(self.outputFormat.get())))
         except ValueError as e:
             #message box?
             print (e)
