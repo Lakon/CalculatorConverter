@@ -36,9 +36,9 @@ def result( operandOne, operandTwo, operator ):
     elif operator == Operator.NOT:
         return logicalNOT( operandOne )
     elif operator == Operator.SHL:
-        return int( operandOne, 2 ) << int( operandTwo, 2 )
+        return str(int( operandOne, 2 ) << int( operandTwo, 2 ))
     elif operator == Operator.SHR:
-        return int( operandOne, 2 ) >> int( operandTwo, 2 )
+        return str(int( operandOne, 2 ) >> int( operandTwo, 2 ))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
