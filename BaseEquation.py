@@ -1,27 +1,28 @@
 """
     File:          BaseEquation.py
     Programmer:    Janet Razo
-    Date:          11/17/15
-    Description:   This file converts the base they input to the base the user wants to output.
+    Date:          11/19/15
+    Description:   This file converts the base the user input to the base the user
+                   wants to output and also has the sem conversion.
 """
 
 import struct
 from Base import Base
-
+from Calculations import removeInsignificantZeroes
 
 
 """
-    Purpose:    
-    Parameters: 
-    Return:     
-    Example:    
+    Purpose:    Selects the method depending on the user input and want they want
+                to output.
+    Parameters: The operand, the base input by the user, and the output base the user wants
+    Return:     outputs a base or sem depending what the user specifies
+    Example:    10 decimal to hexadecimal outputs a
 """
 
 def convert(operand, inputBase, outputBase):
     if inputBase == Base.decimal:
         if outputBase == Base.decimal:
-            num = operand
-            return num
+            return operand
         elif outputBase == Base.hexadecimal:
             if '.' in operand:
                 return decToHex(operand)
@@ -38,11 +39,10 @@ def convert(operand, inputBase, outputBase):
         if outputBase == Base.decimal:
             return HexToDec(operand)
         elif outputBase == Base.hexadecimal:
-            num = operand
-            return num
+            return operand
         elif outputBase == Base.binary:
             return HexToBin(operand)
-        elif ouputBase == Base.sem:
+        elif outputBase == Base.sem:
             change = HexToDec(operand)
             return binsem(change)
     elif inputBase == Base.binary:
@@ -51,34 +51,79 @@ def convert(operand, inputBase, outputBase):
         elif outputBase == Base.hexadecimal:
             return BinToHex(operand)
         elif outputBase == Base.binary:
-            num = operand
-            return num
+            return operand
         elif outputBase == Base.sem:
             change = BinToDec(operand)
             return binsem(change)
     elif inputBase == Base.sem:
         if outputBase == Base.decimal:
-            return flsem(operand)
+            answer = flsem(operand)
+            change = str(answer)
+            return change
         elif outputBase == Base.hexadecimal:
             change = flsem(operand)
-            if '.' in change:
-                return decToHex(change)
+            exchange = str(int(change))
+            if exchange[0] == '-':
+                new = str(int(change))[1:]
+                first = '-' + DecToHex(new) + '.'
             else:
-                return DecToHex(change)
+                first = DecToHex(exchange) + '.'
+            dec = str(change -int(change))[2:]
+            fraction = float(dec)
+            counter = 5
+            while counter != 0 or fraction != 0:
+                fraction *= 2
+                if fraction >= 1:
+                    if int(fraction) == 10:
+                        first = first + 'a'
+                    elif int(fraction) == 11:
+                        first = first + 'b'
+                    elif int(fraction) == 12:
+                        first = first + 'c'
+                    elif int(fraction) == 13:
+                        first = first + 'd'
+                    elif int(fraction) == 14:
+                        first = first + 'e'
+                    elif int(fraction) == 15:
+                        first = first + 'f'
+                    elif int(fraction) <= 9:
+                        first = first + str(int(fraction))
+                    fraction -= int(fraction)
+                else:
+                    first = first + '0'
+                counter -= 1
+            num = removeInsignificantZeroes(first)
+            return num
         elif outputBase == Base.binary:
             change = flsem(operand)
-            if '.' in change:
-                return decToBin(change)
+            exchange = str(int(change))
+            if exchange[0] == '-':
+                new = str(int(change))[1:]
+                first = '-' + DecToBin(new) + '.'
             else:
-                return DecToBin(change)
+                first = DecToBin(exchange) + '.'
+            dec = str(change -int(change))[2:]
+            fraction = float(dec)
+            counter = 5
+            while counter != 0 or fraction != 0:
+                fraction *= 2
+                if fraction >= 1:
+                    first = first + str(int(fraction))
+                    fraction -= int(fraction)
+                else:
+                    first = first + '0'
+                counter -= 1
+            remove = removeInsignificantZeroes(first)
+            return remove
+        elif outputBase == Base.sem:
+            return operand
         
         
 
 """
-    Purpose:    
-    Parameters: 
-    Return:     
-    Example:    
+    Parameters: The input operand
+    Return:     Each method will return a binary number
+    Example:    B hexadecimal will output 1011
 """
 def DecToBin(operand):
     num = bin(int(operand))[2:]
@@ -104,7 +149,8 @@ def decToBin( n ):
             else:
                 integer = integer + '0'
             counter -= 1
-        return integer
+        num = removeInsignificantZeroes(integer)
+        return num
     else:
         return bin(int(n))[2:]
     
@@ -125,10 +171,9 @@ def Tobin(operand):
 #----------------------------------------    
 
 """
-    Purpose:    
-    Parameters: 
-    Return:     
-    Example:    
+    Parameters: The input operand
+    Return:     Each method will return a hexadecimal number
+    Example:    1100 binary will output C  
 """
 def DecToHex(operand):
     num = hex(int(operand))[2:]
@@ -167,7 +212,8 @@ def decToHex( n ):
             else:
                 integer = integer + '0'
             counter -= 1
-        return integer
+        num = removeInsignificantZeroes(integer)
+        return num
     else:
         return hex(int(n))[2:]
 
@@ -188,18 +234,20 @@ def Tohex(operand):
 #-------------------------------------   
 
 """
-    Purpose:    
-    Parameters: 
-    Return:     
-    Example:    
+    Parameters: The input operand
+    Return:     Each method will return a decimal number
+    Example:    1010 hexadecimal will output 10    
 """
 def HexToDec(operand):
     num = int(operand, 16)
-    return num
+    out = str(num)
+    return out
 
 def BinToDec(operand):
     num = int(operand, 2)
-    return num
+    out = str(num)
+    return out
+
 
 """
 def Todec(operand, base):
@@ -218,10 +266,9 @@ def Todec(operand, base):
 #-------------------------------------------
 
 """
-    Purpose:    
-    Parameters: 
-    Return:     
-    Example:    
+    Parameters: The input operand
+    Return:     will return a sem value
+    Example:    3.0 float will output 01000000110101000000000000000000    
 """
 
 def binsem(num):
@@ -237,10 +284,9 @@ def binsem(num):
 
 
 """
-    Purpose:    
-    Parameters: 
-    Return:     
-    Example:    
+    Parameters: The input operand
+    Return:     will return a float value
+    Example:    01000000110101000000000000000000 sem will output 3.0    
 """
 
 def flsem(num):
@@ -276,10 +322,7 @@ def floatsem(num):
             mantissa = mantissa + 1/2
     return (sign, exponent, mantissa)
 """    
-
-#I have a function called removeInsignificantZeroes in my Calculations.
-#At the moment, it only works for binary strings. I'll fix it to work with any
-#base so you can use here and remove the extra zeroes. 
+ 
 
 
 
