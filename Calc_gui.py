@@ -187,10 +187,10 @@ class CalcConvertApp(tk.Tk):
                 except ValueError as e:
                     self.output_binaryOperand1.set(str(e))
 
-                # try:
-                #     self.output_semOperand1.set(convert(self.operand1[0], self.operand1[1], Base.sem))
-                # except ValueError as e:
-                #     self.output_semOperand1.set(str(e))
+                try:
+                    self.output_semOperand1.set(convert(self.operand1[0], self.operand1[1], Base.sem))
+                except ValueError as e:
+                    self.output_semOperand1.set(str(e))
             else:
                 self.output_decimalOperand1.set('')
                 self.output_hexOperand1.set('')
@@ -215,10 +215,10 @@ class CalcConvertApp(tk.Tk):
                 except ValueError as e:
                     self.output_binaryOperand2.set(str(e))
 
-                # try:
-                #     self.output_semOperand2.set(convert(self.operand2[0], self.operand2[1], Base.sem))
-                # except ValueError as e:
-                #     self.output_semOperand2.set(str(e))
+                try:
+                    self.output_semOperand2.set(convert(self.operand2[0], self.operand2[1], Base.sem))
+                except ValueError as e:
+                    self.output_semOperand2.set(str(e))
             else:
                 self.output_decimalOperand2.set('')
                 self.output_hexOperand2.set('')
