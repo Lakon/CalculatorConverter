@@ -71,7 +71,7 @@ def convert(operand, inputBase, outputBase):
             dec = str(change -int(change))[2:]
             fraction = float(dec)
             counter = 5
-            while counter != 0 or fraction != 0:
+            while counter != 0 and fraction != 0:
                 fraction *= 2
                 if fraction >= 1:
                     if int(fraction) == 10:
@@ -105,7 +105,7 @@ def convert(operand, inputBase, outputBase):
             dec = str(change -int(change))[2:]
             fraction = float(dec)
             counter = 5
-            while counter != 0 or fraction != 0:
+            while counter != 0 and fraction != 0:
                 fraction *= 2
                 if fraction >= 1:
                     first = first + str(int(fraction))
@@ -141,7 +141,7 @@ def decToBin( n ):
         integer = bin(int(integer))[2:] + '.'
         fraction = float(n) - int( float(n) )
         counter = 5
-        while counter != 0 or fraction != 0:
+        while counter != 0 and fraction != 0:
             fraction *= 2
             if fraction >= 1:
                 integer = integer + str(int(fraction))
@@ -191,7 +191,7 @@ def decToHex( n ):
         integer = hex(int(integer))[2:] + '.'
         fraction = float(n) - int(float(n))
         counter = 5
-        while counter != 0 or fraction != 0:
+        while counter != 0 and fraction != 0:
             fraction *= 2
             if fraction >= 1:
                 if int(fraction) == 10:
@@ -273,7 +273,7 @@ def Todec(operand, base):
 
 def binsem(num):
     getBin = lambda x: x > 0 and str(bin(int(x)))[2:] or ("-" + str(bin(int(x)))[3:])
-    value = struct.unpack('L', struct.pack('f', float(num)))[0]
+    value = struct.unpack('=L', struct.pack('=f', float(num)))[0]
     operand = getBin(value)
     first = num[0]
     if first != "-":
@@ -295,7 +295,7 @@ def flsem(num):
     elif (num == num[0:32]):
         if all(c in '01' for c in num):
             value = bin(int(num, 2))   
-            operand = struct.unpack('f', struct.pack('L', int(value, 2)))[0]
+            operand = struct.unpack('=f', struct.pack('=L', int(value, 2)))[0]
             return operand
         else:
             raise ValueError('input has to be binary', num)
@@ -322,7 +322,6 @@ def floatsem(num):
             mantissa = mantissa + 1/2
     return (sign, exponent, mantissa)
 """    
- 
 
 
 
