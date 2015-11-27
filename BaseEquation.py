@@ -37,19 +37,47 @@ def convert(operand, inputBase, outputBase):
             return binsem(operand)
     elif inputBase == Base.hexadecimal:
         if outputBase == Base.decimal:
-            return HexToDec(operand)
+            if '.' in operand:
+                if operand[0] == '-':
+                    new = operand[1:]
+                    return '-' + hexToDec(new)    
+                else:
+                    hexToDec(operand)
+            else:
+                return HexToDec(operand)
         elif outputBase == Base.hexadecimal:
             return operand
         elif outputBase == Base.binary:
-            return HexToBin(operand)
+            if '.' in operand:
+                if operand[0] == '-':
+                    new = operand[1:]
+                    return '-' + hexToBin(new)
+                else:
+                    return hexToBin(operand)
+            else:
+                return HexToBin(operand)
         elif outputBase == Base.sem:
             change = HexToDec(operand)
             return binsem(change)
     elif inputBase == Base.binary:
         if outputBase == Base.decimal:
-            return BinToDec(operand)
+            if '.' in operand:
+                if operand[0] == '-':
+                    new = operand[1:]
+                    return '-' + binToDec(new)
+                else:
+                    return binToDec(operand)
+            else:
+                return BinToDec(operand)
         elif outputBase == Base.hexadecimal:
-            return BinToHex(operand)
+            if '.' in operand:
+                if operand[0] == '-':
+                    new = operand[1:]
+                    return '-' + binToHex(new)    
+                else:
+                    return binToHex(operand)
+            else:
+                return BinToHex(operand)
         elif outputBase == Base.binary:
             return operand
         elif outputBase == Base.sem:
@@ -72,7 +100,7 @@ def convert(operand, inputBase, outputBase):
             fraction = float(dec)
             counter = 5
             while counter != 0 and fraction != 0:
-                fraction *= 2
+                fraction *= 16
                 if fraction >= 1:
                     if int(fraction) == 10:
                         first = first + 'a'
@@ -105,7 +133,7 @@ def convert(operand, inputBase, outputBase):
             dec = str(change -int(change))[2:]
             fraction = float(dec)
             counter = 5
-            while counter != 0 and fraction != 0:
+            while counter > 0 and fraction != 0:
                 fraction *= 2
                 if fraction >= 1:
                     first = first + str(int(fraction))
@@ -141,7 +169,7 @@ def decToBin( n ):
         integer = bin(int(integer))[2:] + '.'
         fraction = float(n) - int( float(n) )
         counter = 5
-        while counter != 0 and fraction != 0:
+        while counter > 0 and fraction != 0:
             fraction *= 2
             if fraction >= 1:
                 integer = integer + str(int(fraction))
@@ -192,7 +220,7 @@ def decToHex( n ):
         fraction = float(n) - int(float(n))
         counter = 5
         while counter != 0 and fraction != 0:
-            fraction *= 2
+            fraction *= 16
             if fraction >= 1:
                 if int(fraction) == 10:
                     integer = integer + 'a'
@@ -240,14 +268,66 @@ def Tohex(operand):
 """
 def HexToDec(operand):
     num = int(operand, 16)
-    out = str(num)
-    return out
+    convert = str(num)
+    return convert
 
 def BinToDec(operand):
     num = int(operand, 2)
-    out = str(num)
-    return out
+    convert = str(num)
+    return convert
 
+def hexToDec(operand):              
+    locate = operand.find('.')
+    first = operand[:locate]
+    last = operand[locate+1:]
+    integer = HexToDec(first) + '.'
+    n = 0
+    move = 0
+    for x in last:
+        if x == 'a':
+            move += (10*16**(n-1))
+        elif x == 'b':
+            move += (11*16**(n-1))
+        elif x == 'c':
+            move += (12*16**(n-1))
+        elif x == 'd':
+            move += (13*16**(n-1))
+        elif x == 'e':
+            move += (14*16**(n-1))
+        elif x == 'f':
+            move += (15*16**(n-1))
+        else:
+            change = float(x)
+            move += (change*16**(n-1))
+        n -= 1
+    num = float(integer) + move
+    convert = str(num)
+    return convert
+
+def binToDec(operand):              
+    locate = operand.find('.')
+    first = operand[:locate]
+    last = operand[locate+1:]
+    integer = BinToDec(first) + '.'
+    move = 0
+    n = 0
+    for x in last:
+        change = float(x)
+        move += (change*2**(n-1))
+        n -= 1
+    num = float(integer) + move
+    convert = str(num)
+    return convert
+
+def binToHex(operand):           
+    dec = binToDec(operand)
+    convert = decToHex(dec)
+    return convert
+
+def hexToBin(operand):          
+    dec = hexToDec(operand)
+    convert = decToBin(dec)
+    return convert
 
 """
 def Todec(operand, base):
