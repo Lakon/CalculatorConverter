@@ -42,7 +42,7 @@ def convert(operand, inputBase, outputBase):
                     new = operand[1:]
                     return '-' + hexToDec(new)    
                 else:
-                    hexToDec(operand)
+                    return hexToDec(operand)
             else:
                 return HexToDec(operand)
         elif outputBase == Base.hexadecimal:
@@ -57,8 +57,12 @@ def convert(operand, inputBase, outputBase):
             else:
                 return HexToBin(operand)
         elif outputBase == Base.sem:
-            change = HexToDec(operand)
-            return binsem(change)
+            if '.' in operand:
+                 change = hexToDec(operand) 
+                 return binsem(change)
+            else:
+                change = HexToDec(operand)
+                return binsem(change)
     elif inputBase == Base.binary:
         if outputBase == Base.decimal:
             if '.' in operand:
@@ -81,8 +85,13 @@ def convert(operand, inputBase, outputBase):
         elif outputBase == Base.binary:
             return operand
         elif outputBase == Base.sem:
-            change = BinToDec(operand)
-            return binsem(change)
+            if '.' in operand:
+                 
+                 change = binToDec(operand) 
+                 return binsem(change)
+            else:
+                change = BinToDec(operand)
+                return binsem(change)
     elif inputBase == Base.sem:
         if outputBase == Base.decimal:
             answer = flsem(operand)
@@ -114,7 +123,7 @@ def convert(operand, inputBase, outputBase):
                         first = first + 'e'
                     elif int(fraction) == 15:
                         first = first + 'f'
-                    elif int(fraction) <= 9:
+                    else:
                         first = first + str(int(fraction))
                     fraction -= int(fraction)
                 else:
