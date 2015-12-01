@@ -25,14 +25,30 @@ def convert(operand, inputBase, outputBase):
             return operand
         elif outputBase == Base.hexadecimal:
             if '.' in operand:
-                return decToHex(operand)
+                if operand[0] == '-':           
+                    new = operand[1:]
+                    return '-' + decToHex(new)
+                else:
+                    return decToHex(operand)
             else:
-                return DecToHex(operand) 
+                if operand[0] == '-':           
+                    new = operand[1:]
+                    return '-' + DecToHex(new)
+                else:
+                    return DecToHex(operand) 
         elif outputBase == Base.binary:
             if '.' in operand:
-                return decToBin(operand)
+                if operand[0] == '-':           
+                    new = operand[1:]
+                    return '-' + decToBin(new)
+                else:
+                    return decToBin(operand)   
             else:
-                return DecToBin(operand)
+                if operand[0] == '-':           
+                    new = operand[1:]
+                    return '-' + DecToBin(new)
+                else:
+                    return DecToBin(operand)
         elif outputBase == Base.sem:
             return binsem(operand)
     elif inputBase == Base.hexadecimal:
@@ -55,7 +71,11 @@ def convert(operand, inputBase, outputBase):
                 else:
                     return hexToBin(operand)
             else:
-                return HexToBin(operand)
+                if operand[0] == '-':           
+                    new = operand[1:]
+                    return '-' + HexToBin(new)
+                else:
+                    return HexToBin(operand) 
         elif outputBase == Base.sem:
             if '.' in operand:
                  change = hexToDec(operand) 
@@ -81,7 +101,11 @@ def convert(operand, inputBase, outputBase):
                 else:
                     return binToHex(operand)
             else:
-                return BinToHex(operand)
+                if operand[0] == '-':           
+                    new = operand[1:]
+                    return '-' + BinToHex(new)
+                else:
+                    return BinToHex(operand)
         elif outputBase == Base.binary:
             return operand
         elif outputBase == Base.sem:
