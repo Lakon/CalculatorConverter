@@ -21,20 +21,22 @@ class CalcConvertApp(tk.Tk):
         self.initialize()
 
     def initialize(self):
+        self.minsize(width=700, height=200)
         self.grid()
+
 
         # input labels
         operand1Label = tk.Label(self, text="Operand 1", anchor='w', fg='black')
-        operand1Label.grid(column=1,row=0, columnspan=1, sticky='EW')
+        operand1Label.grid(column=1,row=0, columnspan=2, sticky='EW')
 
         base1Label = tk.Label(self, text="Base 1", anchor='w', fg='black')
-        base1Label.grid(column=2,row=0, columnspan=1, sticky='EW')
+        base1Label.grid(column=3,row=0, columnspan=1)
 
         operand2Label = tk.Label(self, text="Operand 2", anchor='w', fg='black')
-        operand2Label.grid(column=4,row=0, columnspan=1, sticky='EW')
+        operand2Label.grid(column=4,row=0, columnspan=2, sticky='EW')
 
         base2Label = tk.Label(self, text="Base 2", anchor='w', fg='black')
-        base2Label.grid(column=5,row=0, columnspan=1, sticky='EW')
+        base2Label.grid(column=6,row=0, columnspan=1)
 
 
         # input operands
@@ -42,35 +44,35 @@ class CalcConvertApp(tk.Tk):
         self.input_operand1.trace(mode='w',callback=self.OnInputChanged)
 
         self.operand1Entry = tk.Entry(self, textvariable=self.input_operand1, validate='key', validatecommand=self.InputOkay)
-        self.operand1Entry.grid(column=1,row=1,sticky='EW')
+        self.operand1Entry.grid(column=1,row=1, columnspan=2, sticky='EW')
 
         self.input_operand2 = tk.StringVar()
         self.input_operand2.trace(mode='w',callback=self.OnInputChanged)
 
         self.operand2Entry = tk.Entry(self, textvariable=self.input_operand2, validate='key', validatecommand=self.InputOkay)
-        self.operand2Entry.grid(column=4,row=1,sticky='EW')
+        self.operand2Entry.grid(column=4,row=1, columnspan=2, sticky='EW')
 
 
         # input bases drop down
         self.input_base1 = tk.StringVar()
         self.input_base1.set("Decimal")
         self.input_base1Drop = tk.OptionMenu(self, self.input_base1, "Decimal", "Hexadecimal", "Binary", "SEM", command=self.OnInputChanged)
-        self.input_base1Drop.grid(column=2,row=1)
+        self.input_base1Drop.grid(column=3,row=1, columnspan=1)
 
         self.input_base2 = tk.StringVar()
         self.input_base2.set("Decimal")
         self.input_base2Drop = tk.OptionMenu(self, self.input_base2, "Decimal", "Hexadecimal", "Binary", "SEM", command=self.OnInputChanged)
-        self.input_base2Drop.grid(column=5,row=1)
+        self.input_base2Drop.grid(column=6,row=1, columnspan=1)
 
 
         # operator drop down
         operatorLabel = tk.Label(self, text="Operator", anchor='w', fg='black')
-        operatorLabel.grid(column=2,row=2, columnspan=1, sticky='EW')
+        operatorLabel.grid(column=2,row=3)
 
         self.operator = tk.StringVar()
         self.operator.set("+")
         self.operatorDrop = tk.OptionMenu(self, self.operator, "+", "-", "/", "*", "AND", "OR", "XOR", "NOR", "NOT", "SHL", "SHR", command=self.Calculate)
-        self.operatorDrop.grid(column=3,row=2)
+        self.operatorDrop.grid(column=3,row=4)
 
         
 
@@ -113,7 +115,7 @@ class CalcConvertApp(tk.Tk):
         self.output_decimalOperand1Label.grid(column=1,row=3, columnspan=2, sticky='EW')
 
         self.output_decimalOperand2Label = tk.Label(self, textvariable=self.output_decimalOperand2, relief="ridge", anchor='w', fg='black', bg='grey')
-        self.output_decimalOperand2Label.grid(column=3,row=3, columnspan=2, sticky='EW')
+        self.output_decimalOperand2Label.grid(column=4,row=3, columnspan=2, sticky='EW')
 
         self.decimalResultLabel = tk.Label(self, textvariable=self.output_decimalResult, relief="ridge", anchor='w', fg='black', bg='grey')
         self.decimalResultLabel.grid(column=6,row=3, columnspan=2, sticky='EW')
@@ -123,7 +125,7 @@ class CalcConvertApp(tk.Tk):
         self.output_hexOperand1Label.grid(column=1,row=4, columnspan=2, sticky='EW')
 
         self.output_hexOperand2Label = tk.Label(self, textvariable=self.output_hexOperand2, relief="ridge", anchor='w', fg='black', bg='grey')
-        self.output_hexOperand2Label.grid(column=3,row=4, columnspan=2, sticky='EW')
+        self.output_hexOperand2Label.grid(column=4,row=4, columnspan=2, sticky='EW')
 
         self.hexResultLabel = tk.Label(self, textvariable=self.output_hexResult, relief="ridge", anchor='w', fg='black', bg='grey')
         self.hexResultLabel.grid(column=6,row=4, columnspan=2, sticky='EW')
@@ -133,7 +135,7 @@ class CalcConvertApp(tk.Tk):
         self.output_binaryOperand1Label.grid(column=1,row=5, columnspan=2, sticky='EW')
 
         self.output_binaryOperand2Label = tk.Label(self, textvariable=self.output_binaryOperand2, relief="ridge", anchor='w', fg='black', bg='grey')
-        self.output_binaryOperand2Label.grid(column=3,row=5, columnspan=2, sticky='EW')
+        self.output_binaryOperand2Label.grid(column=4,row=5, columnspan=2, sticky='EW')
 
         self.binaryResultLabel = tk.Label(self, textvariable=self.output_binaryResult, relief="ridge", anchor='w', fg='black', bg='grey')
         self.binaryResultLabel.grid(column=6,row=5, columnspan=2, sticky='EW')
@@ -143,15 +145,15 @@ class CalcConvertApp(tk.Tk):
         self.output_semOperand1Label.grid(column=1,row=6, columnspan=2, sticky='EW')
 
         self.output_semOperand2Label = tk.Label(self, textvariable=self.output_semOperand2, relief="ridge", anchor='w', fg='black', bg='grey')
-        self.output_semOperand2Label.grid(column=3,row=6, columnspan=2, sticky='EW')
+        self.output_semOperand2Label.grid(column=4,row=6, columnspan=2, sticky='EW')
 
         self.semResultLabel = tk.Label(self, textvariable=self.output_semResult, relief="ridge", anchor='w', fg='black', bg='grey')
         self.semResultLabel.grid(column=6,row=6, columnspan=2, sticky='EW')
 
 
         # equal sign
-        equalLabel = tk.Label(self, text="=", anchor='w', fg='black')
-        equalLabel.grid(column=5,row=4, columnspan=1, sticky='EW')
+        # equalLabel = tk.Label(self, text="=", anchor='w', fg='black')
+        # equalLabel.grid(column=6,row=4, columnspan=1, sticky='EW')
 
 
         self.clearButton = tk.Button(self,text="Clear", command=self.OnClearButtonClicked)
@@ -159,6 +161,17 @@ class CalcConvertApp(tk.Tk):
 
         self.quitButton = tk.Button(self,text="Quit", command=self.Quit)
         self.quitButton.grid(column=4,row=7)
+
+        self.grid_columnconfigure(1,weight=1)
+        self.grid_columnconfigure(2,weight=1)
+        self.grid_columnconfigure(3,weight=1)
+        self.grid_columnconfigure(4,weight=1)
+        self.grid_columnconfigure(5,weight=1)
+        self.grid_columnconfigure(6,weight=1)
+        self.resizable(True,False)
+        #self.update()
+        #self.geometry(self.geometry())   
+
 
         self.operand1Entry.focus_set()
         self.operand1Entry.selection_range(0, tk.END)
@@ -228,25 +241,6 @@ class CalcConvertApp(tk.Tk):
             self.Calculate(None)
         except Exception as e:
             print(e)
-
-
-    # def OnInputChanged(self, nothing=None):
-    #     self.operand1 = (self.input_operand1.get(), Base.stringToBase(self.input_base1.get()))
-    #     self.operand2 = (self.input_operand2.get(), Base.stringToBase(self.input_base2.get()))
-
-    #     self.output_decimalOperand1.set(convert(self.operand1[0], self.operand1[1], Base.decimal))
-    #     self.output_decimalOperand2.set(convert(self.operand2[0], self.operand2[1], Base.decimal))
-
-    #     self.output_hexOperand1.set(convert(self.operand1[0], self.operand1[1], Base.hexadecimal))
-    #     self.output_hexOperand2.set(convert(self.operand2[0], self.operand2[1], Base.hexadecimal))
-
-    #     self.output_binaryOperand1.set(convert(self.operand1[0], self.operand1[1], Base.binary))
-    #     self.output_binaryOperand2.set(convert(self.operand2[0], self.operand2[1], Base.binary))
-
-    #     self.output_semOperand1.set(convert(self.operand1[0], self.operand1[1], Base.sem))
-    #     self.output_semOperand2.set(convert(self.operand2[0], self.operand2[1], Base.sem))
-
-    #     self.Calculate(None)
 
 
 
