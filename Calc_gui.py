@@ -260,30 +260,22 @@ class CalcConvertApp(tk.Tk):
         
         try:
             operator = Operator.stringToOperator(self.operator.get())
-            if operator.isArithmetic:
-                if self.operand1[0] != "" and self.operand2[0] != "":
-                    operand1 = convert(self.operand1[0], self.operand1[1], Base.decimal) 
+            if self.operand1[0] != "" and self.operand2[0] != "":
+                operand1 = convert(self.operand1[0], self.operand1[1], Base.decimal) 
+                operand2 = convert(self.operand2[0], self.operand2[1], Base.decimal)
+                self.result = (result(operand1, operand2, operator), Base.decimal)
+                self.outputResults()
+            elif operator == Operator.NOT:
+                if self.operand1[0] != "":
+                    operand1 = convert(self.operand1[0], self.operand1[1], Base.decimal)
+                    self.result = (result(operand1, "0", operator), Base.decimal)
+                    self.outputResults()
+                elif self.operand2[0] != "":
                     operand2 = convert(self.operand2[0], self.operand2[1], Base.decimal)
-                    self.result = (result(operand1, operand2, operator), Base.decimal)
+                    self.result = (result(operand2, "0", operator), Base.decimal)
                     self.outputResults()
-                else:
-                    self.outputResults(True)
             else:
-                if self.operand1[0] != "" and self.operand2[0] != "":
-                    operand1 = convert(self.operand1[0], self.operand1[1], Base.binary) 
-                    operand2 = convert(self.operand2[0], self.operand2[1], Base.binary)
-                    self.result = (result(operand1, operand2, operator), Base.binary)
-                    self.outputResults()
-                elif operator == Operator.NOT and self.operand1[0] != "":
-                    operand1 = convert(self.operand1[0], self.operand1[1], Base.binary)
-                    self.result = (result(operand1, None, operator), Base.binary)
-                    self.outputResults()
-                elif operator == Operator.NOT and self.operand2[0] != "":
-                    operand2 = convert(self.operand2[0], self.operand2[1], Base.binary)
-                    self.result = (result(operand2, None, operator), Base.binary)
-                    self.outputResults()
-                else:
-                    self.outputResults(True)
+                self.outputResults(True)
 
         except Exception as e:
             #message box?

@@ -9,6 +9,9 @@
 import struct
 from Base import Base
 from Calculations import removeInsignificantZeroes
+from Operator import Operator
+
+
 
 
 """
@@ -425,7 +428,6 @@ def flsem(num):
     else:
         raise ValueError('input has to be 32bit long', num)
          
-            
 """  
 def floatsem(num):
     sign = 0

@@ -8,7 +8,6 @@ Description:  Peforms the arithmetic and logical calculations required by our ca
 """
 from Operator import Operator
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
     Purpose:    Logic to this file. Selects appropriate function to run
@@ -25,20 +24,26 @@ def result( operandOne, operandTwo, operator ):
         return str(float(operandOne) * float(operandTwo))
     elif operator == Operator.DIV:
         return str(float(operandOne) / float(operandTwo))
-    elif operator == Operator.AND:
-        return logicalAND( operandOne, operandTwo )
+    operandOne = removeInsignificantZeroes( operandOne )
+    operandTwo = removeInsignificantZeroes( operandTwo )
+    if '.' in operandOne:
+        raise ValueError("First operand must be an integer: ", operandOne )
+    if operator == Operator.NOT:
+        return str(~int(operandOne))
+    if '.' in operandTwo:
+        raise ValueError("Second operand must be an integer: ", operandTwo )
+    if operator == Operator.AND:
+        return str(int(operandOne) & int(operandTwo))
     elif operator == Operator.OR:
-        return logicalOR( operandOne, operandTwo )
+        return str(int(operandOne) | int(operandTwo))
     elif operator == Operator.XOR:
-        return logicalXOR( operandOne, operandTwo )
+        return str( int(operandOne) ^ int(operandTwo))
     elif operator == Operator.NOR:
-        return logicalNOR( operandOne, operandTwo )
-    elif operator == Operator.NOT:
-        return logicalNOT( operandOne )
+        return str(~(int(operandOne) | int(operandTwo)))
     elif operator == Operator.SHL:
-        return str(int( operandOne, 2 ) << int( operandTwo, 2 ))
+        return str(int( operandOne ) << int( operandTwo ))
     elif operator == Operator.SHR:
-        return str(int( operandOne, 2 ) >> int( operandTwo, 2 ))
+        return str(int( operandOne ) >> int( operandTwo ))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
@@ -112,19 +117,26 @@ def logicalNOR( operandOne, operandTwo):
     Example:    input of "1011.11" and "10.01101' yields an output of "10.01"
 """
 def logicalAND( operandOne, operandTwo):
-    if '.' in operandOne or '.' in operandTwo:
-        operandOne, operandTwo = equalLen( operandOne, operandTwo)        
-        result = ''
-        for i in range( len(operandOne) ):
-            if operandOne[i] == '1' and operandTwo[i] == '1':
-                result = result + '1'
-            elif operandOne[i] == '.':
-                result = result + '.'
-            else:
-                result = result + '0'
-        return removeInsignificantZeroes(result)
-    else:
-        return bin( int(operandOne,2) & int(operandTwo,2))[2:]
+    result = ''
+    for i in range( len(operandOne) ):
+        if operandOne[i] == '1' and operandTwo[i] == '1':
+            result = result + '1'
+        else:
+            result = result + '0'
+    return result
+##    if '.' in operandOne or '.' in operandTwo:
+##        operandOne, operandTwo = equalLen( operandOne, operandTwo)        
+##        result = ''
+##        for i in range( len(operandOne) ):
+##            if operandOne[i] == '1' and operandTwo[i] == '1':
+##                result = result + '1'
+##            elif operandOne[i] == '.':
+##                result = result + '.'
+##            else:
+##                result = result + '0'
+##        return removeInsignificantZeroes(result)
+##    else:
+##        return bin( int(operandOne,2) & int(operandTwo,2))[2:]
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
@@ -193,6 +205,8 @@ def equalLen( operandOne, operandTwo):
     Example:    input of "001101.01100" yields an output of "1101.011"
 """
 def removeInsignificantZeroes( number ):
+    if number == "0":
+        return "0"
     while True:
         if number[0] == '0' and number[1] != '.':
             number = number[1:]
