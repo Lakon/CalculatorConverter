@@ -123,12 +123,17 @@ def convert(operand, inputBase, outputBase):
             return change
         elif outputBase == Base.hexadecimal:
             change = flsem(operand)
-            exchange = str(int(change))
-            if exchange[0] == '-':
-                new = str(int(change))[1:]
+            exchange = str(change)
+            locate = exchange.find('.')
+            integer = str(exchange[:locate])
+            if integer[0] == '-':
+                if integer[1] == '0':
+                    new = str(int(change))
+                else:
+                    new = str(int(change))[1:]
                 first = '-' + DecToHex(new) + '.'
             else:
-                first = DecToHex(exchange) + '.'
+                first = DecToHex(integer) + '.'
             dec = str(change -int(change))[2:]
             fraction = float(dec)
             counter = 5
@@ -157,12 +162,17 @@ def convert(operand, inputBase, outputBase):
             return num
         elif outputBase == Base.binary:
             change = flsem(operand)
-            exchange = str(int(change))
-            if exchange[0] == '-':
-                new = str(int(change))[1:]
+            exchange = str(change)
+            locate = exchange.find('.')
+            integer = str(exchange[:locate])
+            if integer[0] == '-':
+                if integer[1] == '0':
+                    new = str(int(change))
+                else:
+                    new = str(int(change))[1:]
                 first = '-' + DecToBin(new) + '.'
             else:
-                first = DecToBin(exchange) + '.'
+                first = DecToBin(integer) + '.'
             dec = str(change -int(change))[2:]
             fraction = float(dec)
             counter = 5
