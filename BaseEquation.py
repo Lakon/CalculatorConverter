@@ -433,17 +433,9 @@ def binsem(num):
 """
 
 def flsem(num):
-    if (num == num[0:31]):
-        raise ValueError('input has to be 32bit long', num)
-    elif (num == num[0:32]):
-        if all(c in '01' for c in num):
-            value = bin(int(num, 2))   
-            operand = struct.unpack('=f', struct.pack('=L', int(value, 2)))[0]
-            return operand
-        else:
-            raise ValueError('input has to be binary', num)
-    else:
-        raise ValueError('input has to be 32bit long', num)
+    value = bin(int(num, 2))   
+    operand = struct.unpack('=f', struct.pack('=L', int(value, 2)))[0]
+    return operand
          
 """  
 def floatsem(num):

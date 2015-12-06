@@ -24,14 +24,14 @@ def result( operandOne, operandTwo, operator ):
         return str(float(operandOne) * float(operandTwo))
     elif operator == Operator.DIV:
         return str(float(operandOne) / float(operandTwo))
+
     operandOne = removeInsignificantZeroes( operandOne )
-    operandTwo = removeInsignificantZeroes( operandTwo )
-    if '.' in operandOne:
-        raise ValueError("First operand must be an integer: ", operandOne )
+    
     if operator == Operator.NOT:
         return str(~int(operandOne))
-    if '.' in operandTwo:
-        raise ValueError("Second operand must be an integer: ", operandTwo )
+
+    operandTwo = removeInsignificantZeroes( operandTwo )
+    
     if operator == Operator.AND:
         return str(int(operandOne) & int(operandTwo))
     elif operator == Operator.OR:
