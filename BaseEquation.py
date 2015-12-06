@@ -126,19 +126,27 @@ def convert(operand, inputBase, outputBase):
             return change
         elif outputBase == Base.hexadecimal:
             change = flsem(operand)
-            exchange = str(change)
+            exchange = str(round(change, 10))
             locate = exchange.find('.')
             integer = str(exchange[:locate])
             if integer[0] == '-':
                 if integer[1] == '0':
                     new = str(int(change))
                 else:
-                    new = str(int(change))[1:]
-                first = '-' + DecToHex(new) + '.'
+                    new = str(int(change))
+                y = DecToHex(new)
+                if (y)[0] == '0':
+                    first = '-' + y + '.'
+                else:
+                    first = '-' + (y)[1:] + '.'
             else:
                 first = DecToHex(integer) + '.'
             dec = str(change -int(change))[2:]
-            fraction = float(dec)
+            if '.' in dec:
+                x = dec
+            else:
+                x = '.' + dec
+            fraction = float(x)
             counter = 5
             while counter != 0 and fraction != 0:
                 fraction *= 16
@@ -165,19 +173,28 @@ def convert(operand, inputBase, outputBase):
             return num
         elif outputBase == Base.binary:
             change = flsem(operand)
-            exchange = str(change)
+            exchange = str(round(change, 10))
             locate = exchange.find('.')
             integer = str(exchange[:locate])
             if integer[0] == '-':
                 if integer[1] == '0':
                     new = str(int(change))
                 else:
-                    new = str(int(change))[1:]
-                first = '-' + DecToBin(new) + '.'
+                    new = str(int(change))
+                y = DecToBin(new) 
+                print(y)
+                if (y)[0] == '0':
+                    first = '-' + y + '.'
+                else:
+                    first = '-' + (y)[1:] + '.'
             else:
                 first = DecToBin(integer) + '.'
             dec = str(change -int(change))[2:]
-            fraction = float(dec)
+            if '.' in dec:
+                x = dec
+            else:
+                x = '.' + dec
+            fraction = float(x)
             counter = 5
             while counter > 0 and fraction != 0:
                 fraction *= 2
