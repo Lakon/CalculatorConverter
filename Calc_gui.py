@@ -245,7 +245,11 @@ class CalcConvertApp(tk.Tk):
             #self.outputResults('2')
 
             operand1 = convert(self.operand1[0], self.operand1[1], Base.decimal)
-            operand2 = convert(self.operand2[0], self.operand2[1], Base.decimal)
+
+            if operator != Operator.NOT:
+                operand2 = convert(self.operand2[0], self.operand2[1], Base.decimal)
+            else:
+                operand2 = None
 
             if operator == Operator.DIV and float(operand2) == 0:
                 self.outputError('2', "Can't divide by 0")
