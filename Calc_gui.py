@@ -410,7 +410,10 @@ class CalcConvertApp(tk.Tk):
                 self.outputError(box,"Invalid input for decimal")
                 return False
         elif operand[1] == Base.hexadecimal:
-            if operand[0] == '-' or any(c == '-' for c in (operand[0][1:] if operand[0][0] == '-' else operand[0])):
+            if operand[0] == '-' or operand[0] == '.' or operand[0] == '-.':
+                self.outputError(box,"Invalid input for hexadecimal")
+                return False
+            if any(c == '-' for c in (operand[0][1:] if operand[0][0] == '-' else operand[0])):
                 self.outputError(box,"Invalid input for hexadecimal")
                 return False
             if len(operand[0].split('.')) > 2:
@@ -420,7 +423,10 @@ class CalcConvertApp(tk.Tk):
                 self.outputError(box,"Invalid input for hexadecimal")
                 return False
         elif operand[1] == Base.binary:
-            if operand[0] == '-' or any(c == '-' for c in (operand[0][1:] if operand[0][0] == '-' else operand[0])):
+            if operand[0] == '-' or operand[0] == '.' or operand[0] == '-.':
+                self.outputError(box,"Invalid input for binary")
+                return False
+            if any(c == '-' for c in (operand[0][1:] if operand[0][0] == '-' else operand[0])):
                 self.outputError(box,"Invalid input for binary")
                 return False
             if len(operand[0].split('.')) > 2:

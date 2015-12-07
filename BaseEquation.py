@@ -23,6 +23,14 @@ from Operator import Operator
 """
 
 def convert(operand, inputBase, outputBase):
+    #correct edge case of having only a decimal before the num
+    if '.' in operand:
+        idx = operand.index('.')
+        if idx == 0:
+            operand = '0' + operand[idx:]
+        elif idx == 1 and operand[0] == '-':
+            operand = '-0' + operand[1:]
+
     if inputBase == Base.decimal:
         if outputBase == Base.decimal:
             return operand
