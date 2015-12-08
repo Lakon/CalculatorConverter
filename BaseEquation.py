@@ -9,6 +9,7 @@
 import struct
 from Base import Base
 from Calculations import removeInsignificantZeroes
+from Calculations import normalize
 from Operator import Operator
 
 
@@ -135,6 +136,7 @@ def convert(operand, inputBase, outputBase):
         elif outputBase == Base.hexadecimal:
             change = flsem(operand)
             exchange = str(round(change, 10))
+            exchange = normalize(exchange)     # gets rid of scientific notation
             locate = exchange.find('.')
             integer = str(exchange[:locate])
             if integer[0] == '-':
@@ -182,6 +184,7 @@ def convert(operand, inputBase, outputBase):
         elif outputBase == Base.binary:
             change = flsem(operand)
             exchange = str(round(change, 10))
+            exchange = normalize(exchange)      # gets rid of scientific notation
             locate = exchange.find('.')
             integer = str(exchange[:locate])
             if integer[0] == '-':
