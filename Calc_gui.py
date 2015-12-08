@@ -4,12 +4,11 @@ Programmer:   Thomas Martin
 Date:         11/12/15
 Description:  This file holds the class for the gui of our project.
               It will handle the logic; calling convert and calculate when needed and
-              print to the output boxes. Has buttons for calculate, clear, and quit.  
+              print to the output boxes. Has buttons for clear and quit.  
 """
 
 
 import tkinter as tk
-import re
 import string
 from Calculations import result
 from BaseEquation import convert
@@ -26,8 +25,6 @@ class CalcConvertApp(tk.Tk):
         self.minsize(width=800, height=200)
         #self.maxsize(width=1600,height=1000)
         self.grid()
-
-
 
         # input operand 1
         self.input_operand1 = tk.StringVar()
@@ -231,26 +228,27 @@ class CalcConvertApp(tk.Tk):
         self.operand1Entry.selection_range(0, tk.END)
 
 
-
+    """
+    Purpose:    Everytime some input is changed, check if inputs are valid and calculate result if they are.
+    Parameters: self, random args from tkinter
+    Return:     N/A
+    Example:    You change the operator from + to -. check the inputs, calculate result
+    """
     def OnInputChanged(self, *args): #args just catches tkinter arguments. I don't need them
-        #print (args, str(args[0]))
         self.operand1 = (self.input_operand1.get(), Base.stringToBase(self.input_base1.get()))
         self.operand2 = (self.input_operand2.get(), Base.stringToBase(self.input_base2.get()))
         operator = Operator.stringToOperator(self.operator.get())
 
-        isGood = self.canCalculate(operator)
-        print ("canCalculate()",isGood)
-        if isGood:
-            #self.outputResults('1')
-            #self.outputResults('2')
-
+        if self.canCalculate(operator):
             operand1 = convert(self.operand1[0], self.operand1[1], Base.decimal)
 
+            # edge case not operation, operand2 could be invalid
             if operator != Operator.NOT:
                 operand2 = convert(self.operand2[0], self.operand2[1], Base.decimal)
             else:
                 operand2 = None
 
+            # edge case div by zero
             if operator == Operator.DIV and float(operand2) == 0:
                 self.outputError('2', "Can't divide by 0")
                 self.outputResults('result', clear=True)
@@ -264,117 +262,12 @@ class CalcConvertApp(tk.Tk):
         else:
             self.outputResults('result', clear=True)
 
-        # if   self.operand1[1] == Base.decimal:
-        #     try:
-        #         float(self.operand1[0])
-        #     except:
-        #         self.outputError('1',"Invalid input for decimal")
-        # elif self.operand1[1] == Base.hexadecimal:
-        #     if all(c in string.hexdigits for c in self.operand1[1]):
-        #         self.outputError('1',"Invalid input for hexadecimal")
-        # elif self.operand1[1] == Base.binary:
-        #     if all(c in '01' for c in self.operand1[1]):
-        #         self.outputError('1',"Invalid input for binary")
-        # else: # Base.sem
-        #     if all(c in '01' for c in self.operand1[1]):
-        #         self.outputError('1',"Invalid input for SEM")
-        #     elif len(self.operand1[0]) != 32:
-        #         self.outputError('1',"SEM needs to be 32 bits long")
-
-        # if   self.operand2[1] == Base.decimal:
-        #     try:
-        #         float(self.operand2[0])
-        #     except:
-        #         self.outputError('2',"Invalid input for decimal")
-        # elif self.operand2[1] == Base.hexadecimal:
-        #     if all(c in string.hexdigits for c in self.operand2[1]):
-        #         self.outputError('2',"Invalid input for hexadecimal")
-        # elif self.operand2[1] == Base.binary:
-        #     if all(c in '01' for c in self.operand2[1]):
-        #         self.outputError('2',"Invalid input for binary")
-        # else: # Base.sem
-        #     if all(c in '01' for c in self.operand2[1]):
-        #         self.outputError('2',"Invalid input for SEM")
-        #     elif len(self.operand2[0]) != 32:
-        #         self.outputError('2',"SEM needs to be 32 bits long")
-
-
-        # if not operator.isArithmetic:
-        #     if self.operand1[1] == Base.sem:
-        #         self.outputError('1', "Integer only for logical operations")
-        #     elif '.' in self.operand1[0]:
-        #         self.outputError('1', "Integer only for logical operations")
-
-        # if not operator.isArithmetic:
-        #     if self.operand2[1] == Base.sem:
-        #         self.outputError('2', "Integer only for logical operations")
-        #     elif '.' in self.operand2[0]:
-        #         self.outputError('2', "Integer only for logical operations")
-
-
-        
-
-        # try:
-        #     print (self.operand1[0], self.operand2[0])
-        #     if self.operand1[0] != "":
-        #         try:
-        #             self.output_decimalOperand1.set(convert(self.operand1[0], self.operand1[1], Base.decimal))
-        #         except ValueError as e:
-        #             self.output_decimalOperand1.set(str(e))
-
-        #         try:
-        #             self.output_hexOperand1.set(convert(self.operand1[0], self.operand1[1], Base.hexadecimal))
-        #         except ValueError as e:
-        #             self.output_hexOperand1.set(str(e))
-
-        #         try:
-        #             self.output_binaryOperand1.set(convert(self.operand1[0], self.operand1[1], Base.binary))
-        #         except ValueError as e:
-        #             self.output_binaryOperand1.set(str(e))
-
-        #         try:
-        #             self.output_semOperand1.set(convert(self.operand1[0], self.operand1[1], Base.sem))
-        #         except ValueError as e:
-        #             self.output_semOperand1.set(str(e))
-        #     else:
-        #         self.output_decimalOperand1.set('')
-        #         self.output_hexOperand1.set('')
-        #         self.output_binaryOperand1.set('')
-        #         self.output_semOperand1.set('')
-
-
-        #     if self.operand2[0] != "":
-
-        #         try:
-        #             self.output_decimalOperand2.set(convert(self.operand2[0], self.operand2[1], Base.decimal))
-        #         except ValueError as e:
-        #             self.output_decimalOperand2.set(str(e))
-
-        #         try:
-        #             self.output_hexOperand2.set(convert(self.operand2[0], self.operand2[1], Base.hexadecimal))
-        #         except ValueError as e:
-        #             self.output_hexOperand2.set(str(e))
-
-        #         try:
-        #             self.output_binaryOperand2.set(convert(self.operand2[0], self.operand2[1], Base.binary))
-        #         except ValueError as e:
-        #             self.output_binaryOperand2.set(str(e))
-
-        #         try:
-        #             self.output_semOperand2.set(convert(self.operand2[0], self.operand2[1], Base.sem))
-        #         except ValueError as e:
-        #             self.output_semOperand2.set(str(e))
-        #     else:
-        #         self.output_decimalOperand2.set('')
-        #         self.output_hexOperand2.set('')
-        #         self.output_binaryOperand2.set('')
-        #         self.output_semOperand2.set('')
-
-        #     self.Calculate(None)
-        # except Exception as e:
-        #     self.outputResults(True)
-        #     print(e)
-
+    """
+    Purpose:    Checks that we can move forward and calculate a result
+    Parameters: self, operator
+    Return:     boolean
+    Example:    canCalculate(operator.add) returns True
+    """
     def canCalculate(self, operator):
         operand1_isGood = self.checkInput(self.operand1, operator, '1')
         operand2_isGood = self.checkInput(self.operand2, operator, '2')
@@ -389,26 +282,35 @@ class CalcConvertApp(tk.Tk):
 
         return True
 
+    """
+    Purpose:    Checks that the input from a given entry box is valid
+    Parameters: self, operand(operand and base in tuple), operator, box(which operand)
+    Return:     boolean
+    Example:    checkInput(('100', Base.decimal), Operator.ADD, '1') returns True
+    """
     def checkInput(self, operand, operator, box):
+        if not operator.isArithmetic and operand[1] == Base.sem:
+            self.outputError(box, "Integer only for logical operations")
+            return False
+
         if operand[0] == "":
             self.outputResults(box, clear=True)
             self.outputError(box, '')
             return False
 
-        if not operator.isArithmetic:
-            if operand[1] == Base.sem:
-                self.outputError(box, "Integer only for logical operations")
-                return False
-            elif '.' in operand[0]:
-                self.outputError(box, "Integer only for logical operations")
-                return False
+        if not operator.isArithmetic and '.' in operand[0]:
+            self.outputError(box, "Integer only for logical operations")
+            return False
 
-        if   operand[1] == Base.decimal:
+        # Decimal
+        if operand[1] == Base.decimal:
             try:
                 float(operand[0])
             except:
                 self.outputError(box,"Invalid input for decimal")
                 return False
+
+        # Hex
         elif operand[1] == Base.hexadecimal:
             if operand[0] == '-' or operand[0] == '.' or operand[0] == '-.':
                 self.outputError(box,"Invalid input for hexadecimal")
@@ -422,6 +324,8 @@ class CalcConvertApp(tk.Tk):
             if not all(c in string.hexdigits for c in [x for x in operand[0] if x != '.' and x != '-']):
                 self.outputError(box,"Invalid input for hexadecimal")
                 return False
+
+        # Binary
         elif operand[1] == Base.binary:
             if operand[0] == '-' or operand[0] == '.' or operand[0] == '-.':
                 self.outputError(box,"Invalid input for binary")
@@ -435,7 +339,9 @@ class CalcConvertApp(tk.Tk):
             if operand[0] == '.' or not all(c in '01' for c in [x for x in operand[0] if x != '.' and x != '-']):
                 self.outputError(box,"Invalid input for binary")
                 return False
-        else: # Base.sem
+
+        # SEM
+        else:
             if not all(c in '01' for c in operand[0]):
                 self.outputError(box,"Invalid input for SEM")
                 return False
@@ -447,6 +353,12 @@ class CalcConvertApp(tk.Tk):
         self.outputError(box,'')
         return True
 
+    """
+    Purpose:    Output the error for the selected operand
+    Parameters: self, box(which label to output to), outputString(what to output)
+    Return:     N/A
+    Example:    click button, all boxes are cleared and focus goes to operand1 input
+    """
     def outputError(self, box, outputString):
         if outputString != '':
             self.outputResults(box, clear=True)
@@ -456,7 +368,12 @@ class CalcConvertApp(tk.Tk):
         elif box == '2':
             self.error2.set(outputString)
 
-
+    """
+    Purpose:    Output to or clear the output boxes
+    Parameters: self, box (which group of output boxes), clear(to clear them or not)
+    Return:     N/A
+    Example:    outputResults('1') will output all the conversions of operand 1
+    """
     def outputResults(self, box, clear=False):
         if box == '1':
             if not clear:
@@ -507,9 +424,9 @@ class CalcConvertApp(tk.Tk):
             raise ValueError("box is invalid")
 
     """
-    Purpose:    Handle the main logic for the project. Does something depending on the input.
+    Purpose:    Clear all input and output boxes
     Parameters: self
-    Return:     Outputs to output boxes
+    Return:     N/A
     Example:    click button, all boxes are cleared and focus goes to operand1 input
     """
     def OnClearButtonClicked(self):
@@ -519,21 +436,6 @@ class CalcConvertApp(tk.Tk):
 
         self.operand1Entry.delete(0,'end')
         self.operand2Entry.delete(0,'end')
-        # self.output_decimalOperand1.set('')
-        # self.output_decimalOperand2.set('')
-
-        # self.output_hexOperand1.set('')
-        # self.output_hexOperand2.set('')
-
-        # self.output_binaryOperand1.set('')
-        # self.output_binaryOperand2.set('')
-
-        # self.output_semOperand1.set('')
-        # self.output_semOperand2.set('')
-
-        
-
-        self.outputResults(True)
 
         self.operand1Entry.focus_set()
         self.operand1Entry.selection_range(0, tk.END)
