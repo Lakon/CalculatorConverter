@@ -308,11 +308,9 @@ def Todec(operand, base):
 """
 
 def binsem(num):
-    getBin = lambda x: x > 0 and str(bin(int(x)))[2:] or ("-" + str(bin(int(x)))[3:])
     value = struct.unpack('=L', struct.pack('=f', float(num)))[0]
-    operand = getBin(value)
-    first = num[0]
-    if first != "-":
+    operand = x >= 0 and str(bin(int(value)))[2:] or ("-" + str(bin(int(x)))[2:])
+    if num[0] != "-":
         return '0' + operand
     else:
         return operand
