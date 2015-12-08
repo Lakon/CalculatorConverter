@@ -85,7 +85,7 @@ def normalize( num ):
             num = '-' + num
         return num
     else:
-        return num
+        return ('-' + num) if isNegative else num
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
     Purpose:    Remove all insignificant zeroes from a string of binary numbers
