@@ -23,17 +23,12 @@ def result( operandOne, operandTwo, operator ):
     elif operator == Operator.MUL:
         return str(float(operandOne) * float(operandTwo))
     elif operator == Operator.DIV:
-        return str(float(operandOne) / float(operandTwo))
-
-    operandOne = removeInsignificantZeroes( operandOne )
-    
+        return str(float(operandOne) / float(operandTwo))   
     if operator == Operator.NOT:
-        return str(~int(operandOne))
-
-    operandTwo = removeInsignificantZeroes( operandTwo )
-    
+        return str(~int(operandOne))   
     if operator == Operator.AND:
-        return str(int(operandOne) & int(operandTwo))
+        print( int(operandOne) & int(operandTwo) )
+        return str(int(operandOne) & int(operandTwo))       
     elif operator == Operator.OR:
         return str(int(operandOne) | int(operandTwo))
     elif operator == Operator.XOR:
@@ -44,6 +39,81 @@ def result( operandOne, operandTwo, operator ):
         return str(int( operandOne ) << int( operandTwo ))
     elif operator == Operator.SHR:
         return str(int( operandOne ) >> int( operandTwo ))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+def normalize( num ):
+    isNegative = False
+    print( num )
+    if '-' == num[0]:
+        num = num[1:]
+        isNegative = True
+    if 'e+' in num:          # for large numbers
+        num = num[::-1]     # reverses string
+        exponent = ''
+        while num[0] != '+':    # finds exponent number
+            exponent = exponent + num[0]
+            num = num[1:]
+        exponent = exponent[::-1]
+        num = num[2:]       # revmoes e+
+        num = num[::-1]     # reverses string back to normal
+        exponent = int(exponent)
+        if '.' in num:      # if it has fraction
+            exponent = exponent - len(num) + 2
+            num = num[0] + num[2:]  # removes dot
+            num = num + '0'*exponent # adds the 0's
+        else:
+            num = num + '0'*exponent # adds the 0's
+        if isNegative:
+            num = '-' + num
+        print(num)
+        return num
+    
+    elif 'e-' in num:        # for small numbers
+        num = num[::-1]     # reverses string
+        exponent = ''
+        while num[0] != '-':    # finds exponent number
+            exponent = exponent + num[0]
+            num = num[1:]
+        exponent = exponent[::-1]
+        num = num[2:]       # revmoes e-
+        num = num[::-1]     # reverses string back to normal
+        exponent = int(exponent) - 1
+        if '.' in num:
+            num = num[0] + num[2:]  # removes the dot
+        num = '0.' + '0'*exponent + num
+        if isNegative:
+            num = '-' + num
+        return num
+    else:
+        return num
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+"""
+    Purpose:    Remove all insignificant zeroes from a string of binary numbers
+    Parameter:  Binary number as a string
+    Return:     Simplified binary number as a string
+    Example:    input of "001101.01100" yields an output of "1101.011"
+"""
+def removeInsignificantZeroes( number ):
+    if number == "0":
+        return "0"
+    while True: 
+        if number[0] == '0' and number[1] != '.':
+            number = number[1:]
+        else:
+            break
+    number = number[::-1]  #reverses the string
+    while True:
+        if number[0] == '0' and number[1] != '.':
+            number = number[1:]
+        else:
+            break
+    number = number[::-1]
+    if number == "0.0":
+        return "0"
+    else:
+        return number
+    
+#~~~~~~~~~~~~~~~~~~~~~~ Following code is not used ~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
@@ -197,94 +267,6 @@ def equalLen( operandOne, operandTwo):
         operandTwo = operandTwo + '0'*(fractional1 - fractional2)
     return (operandOne, operandTwo)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-"""
-    Purpose:    Remove all insignificant zeroes from a string of binary numbers
-    Parameter:  Binary number as a string
-    Return:     Simplified binary number as a string
-    Example:    input of "001101.01100" yields an output of "1101.011"
-"""
-def removeInsignificantZeroes( number ):
-    if number == "0":
-        return "0"
-    while True:
-        if number[0] == '0' and number[1] != '.':
-            number = number[1:]
-        else:
-            break
-    number = number[::-1]  #reverses the string
-    while True:
-        if number[0] == '0' and number[1] != '.':
-            number = number[1:]
-        else:
-            break
-    number = number[::-1]
-    if number == "0.0":
-        return "0"
-    else:
-        return number
-    
-    
-##    if '1' not in number:
-##        return '0'
-##    location = number.index('1')
-##    if location < number.index('.'):
-##        number = number[location:]
-##    else:
-##        number = "0" + number[ number.index('.'):]
-##        
-##    number = number[::-1]   #reverses the sring
-##    location = number.index('1')
-##    if location < number.index('.'):
-##        number = number[location:]
-##    else:
-##        number = number[ number.index('.') + 1:]
-##    return number[::-1]
 
-
-
-## --------------- BAD CODE ----------------------------------------------------#
-
-##def arithmeticCalculation( operandOne, operandTwo, operator ):
-##    if operator == operator.ADD:
-##        return float(operandOne) + float(operandTwo)
-##    elif operator == operator.subtraction:
-##        return float(operandOne) - float(operandTwo)
-##    elif operator == operator.multiplication:
-##        return float(num) * float(operandTwo)
-##    else:
-##        return float(operandOne) / float(operandTwo)
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-##"""
-##    Purpose:    Perform bitwise shift left operator to a binary number in string form
-##    Parameter:  Two binary numbers. First one is number to be shifted.
-##              Second number is how many shifts should be done (must be an integer)
-##    Return:     result binary number in string form
-##    Example:    input of "1011.11" and "101" yields an output of "101111000"
-##"""
-##def logicalSHL( operandOne, operandTwo ):
-##    if '.' in operandOne:
-##        operandTwo = int(operandTwo, 2)
-##        operandOne = operandOne + '0'*operandTwo
-##        pL = operandOne.find('.')
-##        operandOne = operandOne[:pL] + operandOne[pL+1:pL+1+operandTwo] + '.' + operandOne[pL+1+operandTwo:]
-##        return removeInsignificantZeroes( operandOne )
-##    else:
-##        return( operandOne + '0'*int(operandTwo,2))
-##
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-##"""
-##    Purpose:    Perform bitwise shift left operator to a binary number in string form
-##    Parameter:  Two binary numbers. First one is number to be shifted.
-##              Second number is how many shifts should be done (must be an integer)
-##    Return:     result binary number in string form
-##    Example:    input of "1011.11" and "101" yields an output of "101111000"
-##"""
-##def logicalSHR( operandOne, operandTwo ):
-##    operandOne = operandOne[::-1]
-##    operandOne = logicalSHL( operandOne, operandTwo)
-##    operandOne = operandOne[::-1]
-##    return removeInsignificantZeroes(operandOne)
   
 
