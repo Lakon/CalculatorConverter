@@ -32,191 +32,47 @@ def convert(operand, inputBase, outputBase):
         elif idx == 1 and operand[0] == '-':
             operand = '-0' + operand[1:]
 
+    # input is Decimal
     if inputBase == Base.decimal:
         if outputBase == Base.decimal:
             return operand
         elif outputBase == Base.hexadecimal:
-            if '.' in operand:
-                if operand[0] == '-':           
-                    new = operand[1:]
-                    return '-' + decToHex(new)
-                else:
-                    return decToHex(operand)
-            else:
-                if operand[0] == '-':           
-                    new = operand[1:]
-                    return '-' + DecToHex(new)
-                else:
-                    return DecToHex(operand) 
+            return decToHex(operand)
         elif outputBase == Base.binary:
-            if '.' in operand:
-                if operand[0] == '-':           
-                    new = operand[1:]
-                    return '-' + decToBin(new)
-                else:
-                    return decToBin(operand)   
-            else:
-                if operand[0] == '-':           
-                    new = operand[1:]
-                    return '-' + DecToBin(new)
-                else:
-                    return DecToBin(operand)
+            return decToBin(operand)
         elif outputBase == Base.sem:
             return binsem(operand)
+
+    #input is Hex
     elif inputBase == Base.hexadecimal:
         if outputBase == Base.decimal:
-            if '.' in operand:
-                if operand[0] == '-':
-                    new = operand[1:]
-                    return '-' + hexToDec(new)    
-                else:
-                    return hexToDec(operand)
-            else:
-                return HexToDec(operand)
+            return hexToDec(operand)
         elif outputBase == Base.hexadecimal:
             return operand
         elif outputBase == Base.binary:
-            if '.' in operand:
-                if operand[0] == '-':
-                    new = operand[1:]
-                    return '-' + hexToBin(new)
-                else:
-                    return hexToBin(operand)
-            else:
-                if operand[0] == '-':           
-                    new = operand[1:]
-                    return '-' + HexToBin(new)
-                else:
-                    return HexToBin(operand) 
+            return hexToBin(operand)
         elif outputBase == Base.sem:
-            if '.' in operand:
-                 change = hexToDec(operand) 
-                 return binsem(change)
-            else:
-                change = HexToDec(operand)
-                return binsem(change)
+            return binsem(hexToDec(operand))
+
+    # input is Binary
     elif inputBase == Base.binary:
         if outputBase == Base.decimal:
-            if '.' in operand:
-                if operand[0] == '-':
-                    new = operand[1:]
-                    return '-' + binToDec(new)
-                else:
-                    return binToDec(operand)
-            else:
-                return BinToDec(operand)
+            return binToDec(operand)
         elif outputBase == Base.hexadecimal:
-            if '.' in operand:
-                if operand[0] == '-':
-                    new = operand[1:]
-                    return '-' + binToHex(new)    
-                else:
-                    return binToHex(operand)
-            else:
-                if operand[0] == '-':           
-                    new = operand[1:]
-                    return '-' + BinToHex(new)
-                else:
-                    return BinToHex(operand)
+            return binToHex(operand)
         elif outputBase == Base.binary:
             return operand
         elif outputBase == Base.sem:
-            if '.' in operand:
-                 
-                 change = binToDec(operand) 
-                 return binsem(change)
-            else:
-                change = BinToDec(operand)
-                return binsem(change)
+            return binsem(binToDec(operand))
+
+    #input is SEM
     elif inputBase == Base.sem:
         if outputBase == Base.decimal:
-            answer = flsem(operand)
-            change = str(answer)
-            return change
+            return flsem(operand)
         elif outputBase == Base.hexadecimal:
-            change = flsem(operand)
-            exchange = str(round(change, 10))
-            exchange = normalize(exchange)     # gets rid of scientific notation
-            locate = exchange.find('.')
-            integer = str(exchange[:locate])
-            if integer[0] == '-':
-                if integer[1] == '0':
-                    new = str(int(change))
-                else:
-                    new = str(int(change))
-                y = DecToHex(new)
-                if (y)[0] == '0':
-                    first = '-' + y + '.'
-                else:
-                    first = '-' + (y)[1:] + '.'
-            else:
-                first = DecToHex(integer) + '.'
-            dec = str(change -int(change))[2:]
-            if '.' in dec:
-                x = dec
-            else:
-                x = '.' + dec
-            fraction = float(x)
-            counter = 5
-            while counter != 0 and fraction != 0:
-                fraction *= 16
-                if fraction >= 1:
-                    if int(fraction) == 10:
-                        first = first + 'a'
-                    elif int(fraction) == 11:
-                        first = first + 'b'
-                    elif int(fraction) == 12:
-                        first = first + 'c'
-                    elif int(fraction) == 13:
-                        first = first + 'd'
-                    elif int(fraction) == 14:
-                        first = first + 'e'
-                    elif int(fraction) == 15:
-                        first = first + 'f'
-                    else:
-                        first = first + str(int(fraction))
-                    fraction -= int(fraction)
-                else:
-                    first = first + '0'
-                counter -= 1
-            num = removeInsignificantZeroes(first)
-            return num
+            return decToHex(normalize(flsem(operand)))
         elif outputBase == Base.binary:
-            change = flsem(operand)
-            exchange = str(round(change, 10))
-            exchange = normalize(exchange)      # gets rid of scientific notation
-            locate = exchange.find('.')
-            integer = str(exchange[:locate])
-            if integer[0] == '-':
-                if integer[1] == '0':
-                    new = str(int(change))
-                else:
-                    new = str(int(change))
-                y = DecToBin(new) 
-                print(y)
-                if (y)[0] == '0':
-                    first = '-' + y + '.'
-                else:
-                    first = '-' + (y)[1:] + '.'
-            else:
-                first = DecToBin(integer) + '.'
-            dec = str(change -int(change))[2:]
-            if '.' in dec:
-                x = dec
-            else:
-                x = '.' + dec
-            fraction = float(x)
-            counter = 5
-            while counter > 0 and fraction != 0:
-                fraction *= 2
-                if fraction >= 1:
-                    first = first + str(int(fraction))
-                    fraction -= int(fraction)
-                else:
-                    first = first + '0'
-                counter -= 1
-            remove = removeInsignificantZeroes(first)
-            return remove
+            return decToBin(normalize(flsem(operand)))
         elif outputBase == Base.sem:
             return operand
         
@@ -227,22 +83,27 @@ def convert(operand, inputBase, outputBase):
     Return:     Each method will return a binary number
     Example:    B hexadecimal will output 1011
 """
-def DecToBin(operand):
-    num = bin(int(operand))[2:]
-    return num
+# def DecToBin(operand):
+#     num = bin(int(operand))[2:]
+#     return num
 
-def HexToBin(operand):
-    num = bin(int(operand, 16))[2:]
-    return num
+# def HexToBin(operand):
+#     num = bin(int(operand, 16))[2:]
+#     return num
 
 def decToBin( n ):
+    isNegative = False
+    if n[0] == '-':
+        isNegative = True
+        n = n[1:]
+    n = normalize(n)
     if '.' in n:
         pL = n.find('.')    # location of point
         integer = n[:pL]    
         fraction = n[pL+1:]
         integer = bin(int(integer))[2:] + '.'
         fraction = float(n) - int( float(n) )
-        counter = 5
+        counter = 32
         while counter > 0 and fraction != 0:
             fraction *= 2
             if fraction >= 1:
@@ -252,9 +113,10 @@ def decToBin( n ):
                 integer = integer + '0'
             counter -= 1
         num = removeInsignificantZeroes(integer)
-        return num
+        return ('-' + num) if isNegative else num
     else:
-        return bin(int(n))[2:]
+        b = bin(int(n))[2:]
+        return ('-' + b) if isNegative else b
     
 """
 def Tobin(operand):
@@ -286,13 +148,18 @@ def BinToHex(operand):
     return num
 
 def decToHex( n ):
+    isNegative = False
+    if n[0] == '-':
+        isNegative = True
+        n = n[1:]
+    n = normalize(n)
     if '.' in n:
         pL = n.find('.')
         integer = n[:pL]
         fraction = n[pL+1:]
         integer = hex(int(integer))[2:] + '.'
         fraction = float(n) - int(float(n))
-        counter = 5
+        counter = 32
         while counter != 0 and fraction != 0:
             fraction *= 16
             if fraction >= 1:
@@ -315,9 +182,10 @@ def decToHex( n ):
                 integer = integer + '0'
             counter -= 1
         num = removeInsignificantZeroes(integer)
-        return num
+        return ('-'+num) if isNegative else num
     else:
-        return hex(int(n))[2:]
+        h = hex(int(n))[2:]
+        return ('-' + h) if isNegative else h
 
 """
 def Tohex(operand):
@@ -350,48 +218,64 @@ def BinToDec(operand):
     convert = str(num)
     return convert
 
-def hexToDec(operand):              
-    locate = operand.find('.')
-    first = operand[:locate]
-    last = operand[locate+1:]
-    integer = HexToDec(first) + '.'
-    n = 0
-    move = 0
-    for x in last:
-        if x == 'a':
-            move += (10*16**(n-1))
-        elif x == 'b':
-            move += (11*16**(n-1))
-        elif x == 'c':
-            move += (12*16**(n-1))
-        elif x == 'd':
-            move += (13*16**(n-1))
-        elif x == 'e':
-            move += (14*16**(n-1))
-        elif x == 'f':
-            move += (15*16**(n-1))
-        else:
-            change = float(x)
-            move += (change*16**(n-1))
-        n -= 1
-    num = float(integer) + move
-    convert = str(num)
-    return convert
+def hexToDec(operand):
+    isNegative = False
+    if operand[0] == '-':
+        isNegative = True
+        operand = operand[1:]
+    if '.' in operand:
+        locate = operand.find('.')
+        first = operand[:locate]
+        last = operand[locate+1:]
+        integer = HexToDec(first) + '.'
+        n = 0
+        move = 0
+        for x in last:
+            if x == 'a':
+                move += (10*16**(n-1))
+            elif x == 'b':
+                move += (11*16**(n-1))
+            elif x == 'c':
+                move += (12*16**(n-1))
+            elif x == 'd':
+                move += (13*16**(n-1))
+            elif x == 'e':
+                move += (14*16**(n-1))
+            elif x == 'f':
+                move += (15*16**(n-1))
+            else:
+                change = float(x)
+                move += (change*16**(n-1))
+            n -= 1
+        num = float(integer) + move
+        convert = str(num)
+        return ('-' + convert) if isNegative else convert
+    else:
+        d = str(int(operand, 16))
+        return ('-' + d) if isNegative else d
 
-def binToDec(operand):              
-    locate = operand.find('.')
-    first = operand[:locate]
-    last = operand[locate+1:]
-    integer = BinToDec(first) + '.'
-    move = 0
-    n = 0
-    for x in last:
-        change = float(x)
-        move += (change*2**(n-1))
-        n -= 1
-    num = float(integer) + move
-    convert = str(num)
-    return convert
+def binToDec(operand):        
+    isNegative = False
+    if operand[0] == '-':
+        isNegative = True
+        operand = operand[1:]
+    if '.' in operand:
+        locate = operand.find('.')
+        first = operand[:locate]
+        last = operand[locate+1:]
+        integer = BinToDec(first) + '.'
+        move = 0
+        n = 0
+        for x in last:
+            change = float(x)
+            move += (change*2**(n-1))
+            n -= 1
+        num = float(integer) + move
+        convert = str(num)
+        return ('-' + convert) if isNegative else convert
+    else:
+        d = str(int(operand,2))
+        return ('-' + d) if isNegative else d
 
 def binToHex(operand):           
     dec = binToDec(operand)
@@ -431,8 +315,7 @@ def binsem(num):
     operand = getBin(value)
     first = num[0]
     if first != "-":
-        oper = '0' + operand
-        return oper
+        return '0' + operand
     else:
         return operand
 
@@ -445,7 +328,7 @@ def binsem(num):
 
 def flsem(num):
     value = bin(int(num, 2))   
-    operand = struct.unpack('=f', struct.pack('=L', int(value, 2)))[0]
+    operand = str(struct.unpack('=f', struct.pack('=L', int(value, 2)))[0])
     return operand
          
 """  
