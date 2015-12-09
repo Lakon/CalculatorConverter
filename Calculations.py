@@ -27,7 +27,6 @@ def result( operandOne, operandTwo, operator ):
     if operator == Operator.NOT:
         return str(~int(operandOne))   
     if operator == Operator.AND:
-        print( int(operandOne) & int(operandTwo) )
         return str(int(operandOne) & int(operandTwo))       
     elif operator == Operator.OR:
         return str(int(operandOne) | int(operandTwo))
@@ -41,6 +40,14 @@ def result( operandOne, operandTwo, operator ):
         return str(int( operandOne ) >> int( operandTwo ))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+"""
+    Purpose:    Turns a number from scientific notation to standards. It adds
+                necessery zeroes and moves point to adjust based on exponent
+    Parameter:  One number in string type
+    Return:     The original number if not in scientific notation or the converted
+                number out of scientific notation
+    Example:    3.45e+10 yield 34500000000
+"""
 def normalize( num ):
     isNegative = False
     print( num )
@@ -85,6 +92,8 @@ def normalize( num ):
             num = '-' + num
         return num
     else:
+        if isNegative:
+            num = '-' + num
         return num
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
